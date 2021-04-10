@@ -1,0 +1,75 @@
+class Prenda {
+    var precioBase;
+    var estado;
+    const tipo;
+
+    method calcularPrecio(){
+        estado.calcularPrecio(precioBase);
+    }
+}
+
+class Ventas {
+    var todasLasVentas;
+    method ganancias(dia){
+        var ventasDelDia = todasLasVentas.filter(venta => venta.fecha == dia);
+        return ventasDelDia.reduce( (total, venta) => {total += venta.ganancias()} );
+    }
+}
+
+class Venta {
+    const fecha;
+    list prendasVendidas;
+    const tipoPago;
+    
+    method vender(prenda){
+        prendasVendidas.add(prenda);
+    }
+    method ganancias(){
+        tipoPago.monto(prendasVendidas);
+    }
+}
+
+interface Pago {
+    method monto(prendasVendidas),
+}
+
+class Efectivo implements Pago {
+    method monto(prendasVendidas) {
+        return prendasVendidas.reduce( (total, prenda) => {total += prenda.precio()} );
+    }
+}
+
+class Tarjeta implements Pago {
+    const coeficiente;
+    const cantCuotas;
+    method monto(prendasVendidas){
+        var valorPrendas = prendasVendidas.reduce( (total, prenda) => {total += prenda.precio()} );
+        var porcentajePrendas = prendasVendidas.reduce( (total, prenda) => {total += prenda.precio() * .01} );
+        return valorPrendas + cantCuotas * coeficiente + porcentajePrendas;
+    }
+}
+
+interface Estado {
+    method calcularPrecio(precio);
+}
+
+class Nueva implements Estado {
+    method calcularPrecio(precio){
+        return precio;
+    }
+}
+
+class Promocion implements Estado {
+    const valorPromo;
+    method calcularPrecio(precio){
+        return precio - valorPromo;
+    }
+}
+
+class Liquidacion implements Estado {
+    method calcularPrecio(precio){
+        return precio * .5;
+    }
+}
+
+
