@@ -12,7 +12,7 @@ class Ventas {
     var todasLasVentas;
     method ganancias(dia){
         var ventasDelDia = todasLasVentas.filter(venta => venta.fecha == dia);
-        return ventasDelDia.reduce( (total, venta) => {total += venta.ganancias()} );
+        return ventasDelDia.reduce( (total, venta) => total + venta.ganancias() );
     }
 }
 
@@ -35,7 +35,7 @@ interface Pago {
 
 class Efectivo implements Pago {
     method monto(prendasVendidas) {
-        return prendasVendidas.reduce( (total, prenda) => {total += prenda.precio()} );
+        return prendasVendidas.reduce( (total, prenda) => total + prenda.precio() );
     }
 }
 
@@ -43,8 +43,8 @@ class Tarjeta implements Pago {
     const coeficiente;
     const cantCuotas;
     method monto(prendasVendidas){
-        var valorPrendas = prendasVendidas.reduce( (total, prenda) => {total += prenda.precio()} );
-        var porcentajePrendas = prendasVendidas.reduce( (total, prenda) => {total += prenda.precio() * .01} );
+        var valorPrendas = prendasVendidas.reduce( (total, prenda) => total + prenda.precio() );
+        var porcentajePrendas = prendasVendidas.reduce( (total, prenda) => total + prenda.precio() * .01 );
         return valorPrendas + cantCuotas * coeficiente + porcentajePrendas;
     }
 }
