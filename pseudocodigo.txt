@@ -4,7 +4,7 @@ class Prenda {
     const tipo;
 
     method calcularPrecio(){
-        estado.calcularPrecio(precioBase);
+        return estado.calcularPrecio(precioBase);
     }
 }
 
